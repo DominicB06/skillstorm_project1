@@ -1,4 +1,4 @@
-package models;
+package com.skillstorm.project1.models;
 
 public class Warehouse {
 	
@@ -16,6 +16,12 @@ public class Warehouse {
 	public Warehouse(int warehouseID, double capacity) {
 		super();
 		this.warehouseID = warehouseID;
+		this.capacity = capacity;
+	}
+	
+	public Warehouse(String address, double capacity) {
+		super();
+		this.address = address;
 		this.capacity = capacity;
 	}
 
