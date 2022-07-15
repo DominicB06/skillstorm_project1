@@ -197,48 +197,4 @@ public class SQLWarehouseDAO implements WarehouseDAO{
 		return false;
 		
 	}
-
-	
-	// for testing
-//		public static void main(String[] args) {
-//			SQLWarehouseDAO dao = new SQLWarehouseDAO();
-//			Warehouse wh = new Warehouse(2, 750.0);
-//			Warehouse wh2 = new Warehouse(1, "1234 main st" ,633.0);
-//			
-//			List<Warehouse> wh = new LinkedList<>();
-//			
-//			wh = dao.findAll();
-//			
-//			System.out.println(wh.get(0).getWarehouseID());
-//			System.out.println(wh.get(0).getAddress());
-//			System.out.println(wh.get(0).getCapacity());
-			
-		
-//			Warehouse wh = dao.findByAddress("1000 vanguard blvd");
-//			System.out.println(wh.getWarehouseID());
-//			System.out.println(wh.getAddress());
-//			System.out.println(wh.getCapacity());
-			
-//			int insert = dao.save(wh);
-//			
-//			if(insert != 0) {
-//				System.out.println("Update succesful, Given warehouse ID: " + insert);
-//			}else {
-//				System.out.println("Update failed");
-//			}
-			
-//			if(dao.delete(11)) {
-//				System.out.println("Delete success");
-//			}else {
-//				System.out.println("Delete fail");
-//			}
-			
-//			if(dao.update(wh2)) {
-//				System.out.println("Update success");
-//			}else {
-//				System.out.println("Update fail");
-//			}
-//			
-//		}
-
 }

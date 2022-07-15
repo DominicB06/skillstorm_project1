@@ -31,7 +31,7 @@ public class SQLInventoryDAO implements InventoryDAO {
 		
 			// get all items
 			while(rs.next()) {
-				Inventory i = new Inventory(rs.getInt("itemID"), rs.getDouble("size"));
+				Inventory i = new Inventory(rs.getInt("itemID"), rs.getDouble("size"), warehouseId);
 				items.add(i);
 			}
 			return items;
@@ -167,31 +167,6 @@ public class SQLInventoryDAO implements InventoryDAO {
 		}
 		return false;
 	}
-	
-	public static void main(String[] args) {
-		SQLInventoryDAO dao = new SQLInventoryDAO();
-		
-//		List<Inventory> items = new LinkedList<>();
-//	
-//		items = dao.findByWarehouse(1);
-//		
-//		for(Inventory i : items) {
-//			System.out.println(i);
-//		}
-		
-		//System.out.println("Warehouse is using: " + dao.findUsage(1));
-		
-//		int key = dao.save(new Inventory(12.9, 1));
-//		System.out.println(key);
-		
-		if(dao.update(new Inventory(4, 50.2 ,2))) {
-			System.out.println("Success");
-		}else {
-			System.out.println("failed");
-		}
-		
-	}
-
 }
 
 

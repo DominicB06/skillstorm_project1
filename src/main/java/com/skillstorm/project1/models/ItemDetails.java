@@ -12,12 +12,6 @@ public class ItemDetails {
 		this.name = name;
 		this.itemID = itemID;
 	}
-	
-	public ItemDetails(int serialNum, String name) {
-		super();
-		this.serialNum = serialNum;
-		this.name = name;
-	}
 
 	public int getSerialNum() {
 		return serialNum;
@@ -41,6 +35,11 @@ public class ItemDetails {
 
 	public void setItemID(int itemID) {
 		this.itemID = itemID;
+	}
+
+	@Override
+	public String toString() {
+		return "ItemDetails [serialNum=" + serialNum + ", name=" + name + ", itemID=" + itemID + "]";
 	}
 	
 	
