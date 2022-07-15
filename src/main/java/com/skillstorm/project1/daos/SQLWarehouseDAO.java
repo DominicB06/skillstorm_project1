@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.skillstorm.project1.conf.WarehouseDBCreds;
 import com.skillstorm.project1.models.Warehouse;
 
 public class SQLWarehouseDAO implements WarehouseDAO{
@@ -15,7 +16,7 @@ public class SQLWarehouseDAO implements WarehouseDAO{
 	@Override
 	public List<Warehouse> findAll() {
 		// need to changed this later to use application.properties
-		try(Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/warehouse","root","password123")) {
+		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()) {
 			
 			String sql = "SELECT * FROM warehouses";
 			
@@ -46,7 +47,7 @@ public class SQLWarehouseDAO implements WarehouseDAO{
 	public Warehouse findById(int id) {
 	
 		// need to changed this later to use application.properties
-		try(Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/warehouse","root","password123")) {
+		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()) {
 			
 			String sql = "SELECT * FROM warehouses WHERE warehouseID = ?";
 			// generate statement and resultset to get results from query
@@ -72,7 +73,7 @@ public class SQLWarehouseDAO implements WarehouseDAO{
 	public Warehouse findByAddress(String address) {
 		
 		// need to changed this later to use application.properties
-		try(Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/warehouse","root","password123")) {
+		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()) {
 			
 			String sql = "SELECT * FROM warehouses WHERE address = ?";
 			
@@ -99,7 +100,7 @@ public class SQLWarehouseDAO implements WarehouseDAO{
 	public int save(Warehouse warehouse) {
 		
 		// need to changed this later to use application.properties
-		try(Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/warehouse","root","password123")) {
+		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()) {
 
 			String sql = "INSERT INTO warehouses(address, capacity) VALUES (?, ?)";
 			// want to make sure insert is successful before committing
@@ -134,7 +135,7 @@ public class SQLWarehouseDAO implements WarehouseDAO{
 	public boolean update(Warehouse warehouse) {
 		
 		// need to changed this later to use application.properties
-		try(Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/warehouse","root","password123")) {
+		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()) {
 			
 			String sql = "UPDATE warehouses SET address = ?, capacity = ? WHERE warehouseID = ?";
 			
@@ -169,7 +170,7 @@ public class SQLWarehouseDAO implements WarehouseDAO{
 		String sql = "DELETE FROM warehouses WHERE warehouseID = ?";
 		
 		// need to changed this later to use application.properties
-		try(Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/warehouse","root","password123")) {
+		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()) {
 			
 			// want to make sure insert is successful before committing
 			conn.setAutoCommit(false);
