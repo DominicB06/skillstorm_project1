@@ -30,7 +30,6 @@ public class WarehouseServlet extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		
 		// For warehouse.findById
 		try {
 			//int id = urlService.extractIDFromURL(req.getPathInfo());

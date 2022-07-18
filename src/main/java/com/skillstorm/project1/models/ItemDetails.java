@@ -5,6 +5,10 @@ public class ItemDetails {
 	private int serialNum;
 	private String name;
 	private int itemID;
+
+	public ItemDetails() {
+		
+	}
 	
 	public ItemDetails(int serialNum, String name, int itemID) {
 		super();

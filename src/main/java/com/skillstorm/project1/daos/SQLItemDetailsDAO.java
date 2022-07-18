@@ -1,11 +1,9 @@
 package com.skillstorm.project1.daos;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
-
+import com.skillstorm.project1.conf.WarehouseDBCreds;
 import com.skillstorm.project1.models.ItemDetails;
 
 public class SQLItemDetailsDAO implements ItemDetailsDAO{
@@ -13,7 +11,7 @@ public class SQLItemDetailsDAO implements ItemDetailsDAO{
 	@Override
 	public ItemDetails findBySerialNum(int serialNum) {
 		// need to changed this later to use application.properties
-		try(Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/warehouse","root","password123")) {
+		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()) {
 			
 			String sql = "SELECT name, itemID FROM itemdetails WHERE serialNum = ?";
 			
@@ -37,7 +35,7 @@ public class SQLItemDetailsDAO implements ItemDetailsDAO{
 	@Override
 	public ItemDetails findByItemID(int itemID) {
 		// need to changed this later to use application.properties
-		try(Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/warehouse","root","password123")) {
+		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()) {
 			
 			String sql = "SELECT serialNum, name FROM itemdetails WHERE itemID = ?";
 			
@@ -61,7 +59,7 @@ public class SQLItemDetailsDAO implements ItemDetailsDAO{
 	@Override
 	public ItemDetails findByName(String name) {
 		// need to changed this later to use application.properties
-		try(Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/warehouse","root","password123")) {
+		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()) {
 			
 			String sql = "SELECT serialNum, itemID FROM itemdetails WHERE name = ?";
 			
@@ -85,7 +83,7 @@ public class SQLItemDetailsDAO implements ItemDetailsDAO{
 	@Override
 	public boolean save(ItemDetails item) {
 		// need to changed this later to use application.properties
-		try(Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/warehouse","root","password123")) {
+		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()) {
 			
 			String sql = "INSERT INTO itemdetails VALUES (?, ?, ?)";
 			
@@ -115,7 +113,7 @@ public class SQLItemDetailsDAO implements ItemDetailsDAO{
 
 	@Override
 	public boolean update(ItemDetails item) {
-		try(Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/warehouse","root","password123")){
+		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()){
 			
 			String sql = "UPDATE itemdetails SET serialNum = ?, name = ?, itemID = ? WHERE serialNum = ?";
 			
@@ -144,7 +142,7 @@ public class SQLItemDetailsDAO implements ItemDetailsDAO{
 
 	@Override
 	public boolean delete(int serialNum) {
-		try(Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/warehouse","root","password123")){
+		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()){
 			
 			String sql = "DELETE FROM itemdetails WHERE serialNum = ?";
 			
@@ -168,21 +166,6 @@ public class SQLItemDetailsDAO implements ItemDetailsDAO{
 		return false;
 	}
 	
-	public static void main(String[] args) {
-		
-		SQLItemDetailsDAO dao = new SQLItemDetailsDAO();
-		
-		System.out.println(dao.findByItemID(2));
-		System.out.println(dao.findByName("springs"));
-		System.out.println(dao.findBySerialNum(789456));
-		
-		//System.out.println(dao.save(new ItemDetails(4159, "batteries", 10)));
-		
-		//System.out.println(dao.update(new ItemDetails(456, "pepsi", 3)));
-		
-		System.out.println(dao.delete(357));
-		
-	}
 
 }
 
