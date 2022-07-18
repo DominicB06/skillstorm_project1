@@ -43,7 +43,7 @@ public class WarehouseServlet extends HttpServlet{
 				resp.getWriter().print(mapper.writeValueAsString(wh));
 			} else { // if no warehouse was found then client made a mistake so send 404 and a message
 				resp.setStatus(404);
-				resp.getWriter().print(mapper.writeValueAsString("No warehouse found with that id"));
+				resp.getWriter().print(mapper.writeValueAsString("Error: No warehouse found with that id"));
 			}
 			
 			return;
@@ -65,7 +65,7 @@ public class WarehouseServlet extends HttpServlet{
 					resp.getWriter().print(mapper.writeValueAsString(wh));
 				} else { // if no warehouse was found then client made a mistake so send 404 and a message
 					resp.setStatus(404);
-					resp.getWriter().print(mapper.writeValueAsString("No warehouse found with that address"));
+					resp.getWriter().print(mapper.writeValueAsString("Error: No warehouse found with that address"));
 				}
 				
 				return;
@@ -99,7 +99,7 @@ public class WarehouseServlet extends HttpServlet{
 			resp.setStatus(201);
 		}else {
 			//if generated key was 0 then the warehouse was not created
-			resp.getWriter().print("Could not create warehouse");
+			resp.getWriter().print("Error: Could not create warehouse");
 			resp.setStatus(400);
 		}
 	}
@@ -114,10 +114,10 @@ public class WarehouseServlet extends HttpServlet{
 		// if the update was successful send the data and set status to 201
 		if(updated) {
 			resp.setContentType("application/json");
-			resp.getWriter().print("Success - Warehouse has been updated");
+			resp.getWriter().print("Success: Warehouse has been updated");
 			resp.setStatus(201);
 		}else { //else update was a failure
-			resp.getWriter().print("Failure - Could not update the warehouse");
+			resp.getWriter().print("Error: Could not update the warehouse");
 			resp.setStatus(400);
 		}
 	}
@@ -135,10 +135,10 @@ public class WarehouseServlet extends HttpServlet{
 		// if the delete was successful send the data and set status to 201
 		if(deleted) {
 			resp.setContentType("application/json");
-			resp.getWriter().print("Success - Warehouse has been deleted");
+			resp.getWriter().print("Success: Warehouse has been deleted");
 			resp.setStatus(201);
 		}else { //else delete was a failure
-			resp.getWriter().print("Failure - Could not delete the warehouse");
+			resp.getWriter().print("Error: Could not delete the warehouse");
 			resp.setStatus(400);
 		}
 	}

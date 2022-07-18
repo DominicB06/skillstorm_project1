@@ -23,7 +23,7 @@ public interface InventoryDAO {
 		/**
 		 *  (Create) Insert data into database
 		 *  @param warehouse object
-		 *  @return Returns generated itemID if update successful and 0 if error occurred
+		 *  @return Returns generated itemID if update successful, -1 if capacityCheck fails and 0 for any other error
 		 */
 		public int save(Inventory item); 
 		

@@ -35,8 +35,9 @@ public class ItemDetailsServlet extends HttpServlet{
 				resp.getWriter().print(mapper.writeValueAsString(item));
 			} else { // if no warehouse was found then client made a mistake so send 404 and a message
 				resp.setStatus(404);
-				resp.getWriter().print(mapper.writeValueAsString("No item found with that id"));
+				resp.getWriter().print(mapper.writeValueAsString("Error: No item found with that id"));
 			}
+			return;
 		} catch (Exception e) {
 		}
 		
@@ -50,8 +51,9 @@ public class ItemDetailsServlet extends HttpServlet{
 				resp.getWriter().print(mapper.writeValueAsString(item));
 			} else { // if no warehouse was found then client made a mistake so send 404 and a message
 				resp.setStatus(404);
-				resp.getWriter().print(mapper.writeValueAsString("No item found with that serial number"));
+				resp.getWriter().print(mapper.writeValueAsString("Error: No item found with that serial number"));
 			}
+			return;
 		} catch (Exception e) {
 		}
 		
@@ -65,13 +67,16 @@ public class ItemDetailsServlet extends HttpServlet{
 					resp.getWriter().print(mapper.writeValueAsString(item));
 				} else { // if no warehouse was found then client made a mistake so send 404 and a message
 					resp.setStatus(404);
-					resp.getWriter().print(mapper.writeValueAsString("No item found with that name"));
+					resp.getWriter().print(mapper.writeValueAsString("Error: No item found with that name"));
 				}
+				return;
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
 		}
 		
+		resp.setStatus(400);
+		resp.getWriter().print(mapper.writeValueAsString("Error: No search criteria provided"));
 		return;
 	
 	}
@@ -88,10 +93,10 @@ public class ItemDetailsServlet extends HttpServlet{
 		// if save was a success send message back
 		if(success) {
 			resp.setContentType("application/json");
-			resp.getWriter().print(mapper.writeValueAsString("Item created successfuly"));
+			resp.getWriter().print(mapper.writeValueAsString("Success: Item created successfuly"));
 			resp.setStatus(201);
 		}else {
-			resp.getWriter().print("Could not create item");
+			resp.getWriter().print("Error: Could not create item");
 			resp.setStatus(400);
 		}
 	}
@@ -106,10 +111,10 @@ public class ItemDetailsServlet extends HttpServlet{
 		// if the update was successful send message
 		if(updated) {
 			resp.setContentType("application/json");
-			resp.getWriter().print("Success - Item has been updated");
+			resp.getWriter().print("Success: Item has been updated");
 			resp.setStatus(201);
 		}else {
-			resp.getWriter().print("Failure - Could not update the item");
+			resp.getWriter().print("Error: Could not update the item");
 			resp.setStatus(400);
 		}
 	}
@@ -124,10 +129,10 @@ public class ItemDetailsServlet extends HttpServlet{
 		// if the delete was successful send the data and set status to 201
 		if(deleted) {
 			resp.setContentType("application/json");
-			resp.getWriter().print("Success - Item has been deleted");
+			resp.getWriter().print("Success: Item has been deleted");
 			resp.setStatus(201);
 		}else { //else delete was a failure
-			resp.getWriter().print("Failure - Could not delete the item");
+			resp.getWriter().print("Error: Could not delete the item");
 			resp.setStatus(400);
 		}
 	}

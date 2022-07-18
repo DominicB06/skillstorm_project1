@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.skillstorm.project1.conf.WarehouseDBCreds;
 import com.skillstorm.project1.models.Inventory;
+import com.skillstorm.project1.services.CapacityCheck;
 
 
 public class SQLInventoryDAO implements InventoryDAO {
@@ -71,9 +72,14 @@ public class SQLInventoryDAO implements InventoryDAO {
 	public int save(Inventory item) {
 		
 		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()) {
+		
+			CapacityCheck check = new CapacityCheck();
+			if(!check.checkCapacity(item.getWarehouse(), item.getSize())) {
+				return -1;
+			}
 			
 			String sql = "INSERT INTO inventory(size, warehouse) VALUES (?, ?)";
-			
+		
 			// want to make sure insert is successful before committing
 			conn.setAutoCommit(false);
 			
@@ -106,6 +112,11 @@ public class SQLInventoryDAO implements InventoryDAO {
 	public boolean update(Inventory item) {
 		
 		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()){
+			
+			CapacityCheck check = new CapacityCheck();
+			if(!check.checkCapacity(item.getWarehouse(), item.getSize())) {
+				return false;
+			}
 			
 			String sql = "UPDATE inventory SET size = ?, warehouse = ? WHERE itemID = ?";
 			
