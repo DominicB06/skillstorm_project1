@@ -1,7 +1,6 @@
 package com.skillstorm.project1.daos;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -15,7 +14,6 @@ public class SQLWarehouseDAO implements WarehouseDAO{
 
 	@Override
 	public List<Warehouse> findAll() {
-		// need to changed this later to use application.properties
 		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()) {
 			
 			String sql = "SELECT * FROM warehouses";
@@ -46,7 +44,6 @@ public class SQLWarehouseDAO implements WarehouseDAO{
 	@Override
 	public Warehouse findById(int id) {
 	
-		// need to changed this later to use application.properties
 		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()) {
 			
 			String sql = "SELECT * FROM warehouses WHERE warehouseID = ?";
@@ -72,7 +69,6 @@ public class SQLWarehouseDAO implements WarehouseDAO{
 	@Override
 	public Warehouse findByAddress(String address) {
 		
-		// need to changed this later to use application.properties
 		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()) {
 			
 			String sql = "SELECT * FROM warehouses WHERE address = ?";
@@ -99,7 +95,6 @@ public class SQLWarehouseDAO implements WarehouseDAO{
 	@Override
 	public int save(Warehouse warehouse) {
 		
-		// need to changed this later to use application.properties
 		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()) {
 
 			String sql = "INSERT INTO warehouses(address, capacity) VALUES (?, ?)";
@@ -134,7 +129,6 @@ public class SQLWarehouseDAO implements WarehouseDAO{
 	@Override
 	public boolean update(Warehouse warehouse) {
 		
-		// need to changed this later to use application.properties
 		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()) {
 			
 			String sql = "UPDATE warehouses SET address = ?, capacity = ? WHERE warehouseID = ?";
@@ -169,7 +163,6 @@ public class SQLWarehouseDAO implements WarehouseDAO{
 	public boolean delete(int id) {
 		String sql = "DELETE FROM warehouses WHERE warehouseID = ?";
 		
-		// need to changed this later to use application.properties
 		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()) {
 			
 			// want to make sure insert is successful before committing

@@ -30,9 +30,11 @@ public class WarehouseServlet extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
+		
 		// For warehouse.findById
 		try {
-			int id = urlService.extractIDFromURL(req.getPathInfo());
+			//int id = urlService.extractIDFromURL(req.getPathInfo());
+			int id = Integer.parseInt(req.getParameter("id"));
 			Warehouse wh = dao.findById(id);
 			
 			// if a warehouse was returned successfully
@@ -51,24 +53,28 @@ public class WarehouseServlet extends HttpServlet{
 		}
 		
 		// for warehouse.findByAddress
-		try {
-			String address = urlService.extractStringFromURL(req.getPathInfo());
-			Warehouse wh = dao.findByAddress(address);
-			
-			// if a warehouse was returned successfully
-			// send it as a response as json
-			if(wh != null) {
-				resp.setContentType("application/json");
-				resp.getWriter().print(mapper.writeValueAsString(wh));
-			} else { // if no warehouse was found then client made a mistake so send 404 and a message
-				resp.setStatus(404);
-				resp.getWriter().print(mapper.writeValueAsString("No warehouse found with that address"));
+		String address = req.getParameter("address");
+		if(address != null) {
+			try {
+				//String address = urlService.extractStringFromURL(req.getPathInfo());
+				Warehouse wh = dao.findByAddress(address);
+				
+				// if a warehouse was returned successfully
+				// send it as a response as json
+				if(wh != null) {
+					resp.setContentType("application/json");
+					resp.getWriter().print(mapper.writeValueAsString(wh));
+				} else { // if no warehouse was found then client made a mistake so send 404 and a message
+					resp.setStatus(404);
+					resp.getWriter().print(mapper.writeValueAsString("No warehouse found with that address"));
+				}
+				
+				return;
+			} catch (Exception e) {
+				// TODO: handle exception
 			}
-			
-			return;
-		} catch (Exception e) {
-			// TODO: handle exception
 		}
+		
 		
 		// if we get past the above two try blocks then the user just wants all warehouses
 		List<Warehouse> wh = dao.findAll();
@@ -122,7 +128,10 @@ public class WarehouseServlet extends HttpServlet{
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		// use URLParserService to get the id they want to delete
-		int id = urlService.extractIDFromURL(req.getPathInfo());
+//		int id = urlService.extractIDFromURL(req.getPathInfo());
+		
+		int id = Integer.parseInt(req.getParameter("id"));
+		
 		boolean deleted = dao.delete(id);
 		// if the delete was successful send the data and set status to 201
 		if(deleted) {

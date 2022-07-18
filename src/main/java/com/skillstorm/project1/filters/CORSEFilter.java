@@ -18,6 +18,11 @@ public class CORSEFilter implements Filter{
 public void init(FilterConfig filterConfig) throws ServletException {
 	
 }
+
+@Override
+	public void destroy() {
+		
+	}
 	
 	
 	@Override

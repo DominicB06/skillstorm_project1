@@ -6,6 +6,9 @@ public class Inventory {
 	private double size;
 	private int warehouse;
 	
+	public Inventory() {
+	}
+	
 	public Inventory(double size, int warehouse) {
 		super();
 		this.size = size;

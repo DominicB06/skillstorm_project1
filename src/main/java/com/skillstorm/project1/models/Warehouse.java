@@ -6,6 +6,10 @@ public class Warehouse {
 	private String address;
 	private double capacity;
 	
+	public Warehouse() {
+		
+	}
+	
 	public Warehouse(int warehouseID, String address, double capacity) {
 		super();
 		this.warehouseID = warehouseID;

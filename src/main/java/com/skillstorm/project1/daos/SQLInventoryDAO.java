@@ -1,14 +1,13 @@
 package com.skillstorm.project1.daos;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.skillstorm.project1.conf.WarehouseDBCreds;
 import com.skillstorm.project1.models.Inventory;
 
 
@@ -18,7 +17,7 @@ public class SQLInventoryDAO implements InventoryDAO {
 	public List<Inventory> findByWarehouse(int warehouseId) {
 		
 		// need to changed this later to use application.properties
-		try(Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/warehouse","root","password123")) {
+		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()) {
 			
 			LinkedList<Inventory> items = new LinkedList<>();
 			String sql = "SELECT itemID, size FROM inventory WHERE warehouse = ?";
@@ -45,8 +44,7 @@ public class SQLInventoryDAO implements InventoryDAO {
 	@Override
 	public double findUsage(int warehouseId) {
 		
-		// need to changed this later to use application.properties
-		try(Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/warehouse","root","password123")) {
+		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()) {
 			
 			String sql = "SELECT SUM(size) FROM inventory WHERE warehouse = ?";
 			
@@ -72,8 +70,7 @@ public class SQLInventoryDAO implements InventoryDAO {
 	@Override
 	public int save(Inventory item) {
 		
-		// need to changed this later to use application.properties
-		try(Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/warehouse","root","password123")) {
+		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()) {
 			
 			String sql = "INSERT INTO inventory(size, warehouse) VALUES (?, ?)";
 			
@@ -108,7 +105,7 @@ public class SQLInventoryDAO implements InventoryDAO {
 	@Override
 	public boolean update(Inventory item) {
 		
-		try(Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/warehouse","root","password123")){
+		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()){
 			
 			String sql = "UPDATE inventory SET size = ?, warehouse = ? WHERE itemID = ?";
 			
@@ -138,8 +135,7 @@ public class SQLInventoryDAO implements InventoryDAO {
 	@Override
 	public boolean delete(int id) {
 		
-		// need to changed this later to use application.properties
-		try(Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/warehouse","root","password123")) {
+		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()) {
 			
 			String sql = "DELETE FROM inventory WHERE itemID = ?";
 			
