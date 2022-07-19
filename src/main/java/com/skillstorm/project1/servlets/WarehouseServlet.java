@@ -99,7 +99,7 @@ public class WarehouseServlet extends HttpServlet{
 			resp.setStatus(201);
 		}else {
 			//if generated key was 0 then the warehouse was not created
-			resp.getWriter().print("Error: Could not create warehouse");
+			resp.getWriter().print(mapper.writeValueAsString("Error: Could not create warehouse"));
 			resp.setStatus(400);
 		}
 	}
@@ -114,10 +114,10 @@ public class WarehouseServlet extends HttpServlet{
 		// if the update was successful send the data and set status to 201
 		if(updated) {
 			resp.setContentType("application/json");
-			resp.getWriter().print("Success: Warehouse has been updated");
+			resp.getWriter().print(mapper.writeValueAsString("Success: Warehouse has been updated"));
 			resp.setStatus(201);
 		}else { //else update was a failure
-			resp.getWriter().print("Error: Could not update the warehouse");
+			resp.getWriter().print(mapper.writeValueAsString("Error: Could not update the warehouse"));
 			resp.setStatus(400);
 		}
 	}
@@ -135,10 +135,10 @@ public class WarehouseServlet extends HttpServlet{
 		// if the delete was successful send the data and set status to 201
 		if(deleted) {
 			resp.setContentType("application/json");
-			resp.getWriter().print("Success: Warehouse has been deleted");
+			resp.getWriter().print(mapper.writeValueAsString("Success: Warehouse has been deleted"));
 			resp.setStatus(201);
 		}else { //else delete was a failure
-			resp.getWriter().print("Error: Could not delete the warehouse");
+			resp.getWriter().print(mapper.writeValueAsString("Error: Could not delete the warehouse"));
 			resp.setStatus(400);
 		}
 	}

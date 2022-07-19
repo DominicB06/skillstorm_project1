@@ -132,11 +132,26 @@ public class SQLWarehouseDAO implements WarehouseDAO{
 		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()) {
 			
 			String sql = "UPDATE warehouses SET address = ?, capacity = ? WHERE warehouseID = ?";
-			
+		
 			conn.setAutoCommit(false);
 			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setString(1, warehouse.getAddress());
-			stmt.setDouble(2, warehouse.getCapacity());
+			
+			// If user doesnt provide an updated address, keep address the original
+			if(warehouse.getAddress() == "") {
+				Warehouse original = findById(warehouse.getWarehouseID());
+				stmt.setString(1, original.getAddress());
+			}else {
+				stmt.setString(1, warehouse.getAddress());
+			}
+			
+			// If user doesnt provide an updated capacity, keep the original
+			if(warehouse.getCapacity() == 0) {
+				Warehouse original = findById(warehouse.getWarehouseID());
+				stmt.setDouble(2, original.getCapacity());
+			}else {
+				stmt.setDouble(2, warehouse.getCapacity());
+			}
+			
 			stmt.setInt(3, warehouse.getWarehouseID());
 			
 			

@@ -27,8 +27,8 @@ public class ItemDetailsServlet extends HttpServlet{
 		
 		// check if there is an itemID
 		try {
-			int id = Integer.parseInt(req.getParameter("itemId"));
-			ItemDetails item = dao.findByItemID(id);
+			int id = Integer.parseInt(req.getParameter("vaultID"));
+			ItemDetails item = dao.findByVaultID(id);
 			
 			if(item != null) {
 				resp.setContentType("application/json");
@@ -96,7 +96,6 @@ public class ItemDetailsServlet extends HttpServlet{
 			resp.getWriter().print(mapper.writeValueAsString("Success: Item created successfuly"));
 			resp.setStatus(201);
 		}else {
-			resp.getWriter().print("Error: Could not create item");
 			resp.setStatus(400);
 		}
 	}
@@ -111,10 +110,10 @@ public class ItemDetailsServlet extends HttpServlet{
 		// if the update was successful send message
 		if(updated) {
 			resp.setContentType("application/json");
-			resp.getWriter().print("Success: Item has been updated");
+			resp.getWriter().print(mapper.writeValueAsString("Success: Item has been updated"));
 			resp.setStatus(201);
 		}else {
-			resp.getWriter().print("Error: Could not update the item");
+			resp.getWriter().print(mapper.writeValueAsString("Error: Could not update the item"));
 			resp.setStatus(400);
 		}
 	}
@@ -129,10 +128,10 @@ public class ItemDetailsServlet extends HttpServlet{
 		// if the delete was successful send the data and set status to 201
 		if(deleted) {
 			resp.setContentType("application/json");
-			resp.getWriter().print("Success: Item has been deleted");
+			resp.getWriter().print(mapper.writeValueAsString("Success: Item has been deleted"));
 			resp.setStatus(201);
 		}else { //else delete was a failure
-			resp.getWriter().print("Error: Could not delete the item");
+			resp.getWriter().print(mapper.writeValueAsString("Error: Could not delete the item"));
 			resp.setStatus(400);
 		}
 	}

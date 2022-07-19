@@ -21,7 +21,7 @@ public class SQLInventoryDAO implements InventoryDAO {
 		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()) {
 			
 			LinkedList<Inventory> items = new LinkedList<>();
-			String sql = "SELECT itemID, size FROM inventory WHERE warehouse = ?";
+			String sql = "SELECT vaultID, size FROM inventory WHERE warehouse = ?";
 			
 			// generate statement and resultset to get results from query
 			PreparedStatement stmt = conn.prepareStatement(sql);
@@ -31,7 +31,7 @@ public class SQLInventoryDAO implements InventoryDAO {
 		
 			// get all items
 			while(rs.next()) {
-				Inventory i = new Inventory(rs.getInt("itemID"), rs.getDouble("size"), warehouseId);
+				Inventory i = new Inventory(rs.getInt("vaultID"), rs.getDouble("size"), warehouseId);
 				items.add(i);
 			}
 			return items;
@@ -118,13 +118,13 @@ public class SQLInventoryDAO implements InventoryDAO {
 				return false;
 			}
 			
-			String sql = "UPDATE inventory SET size = ?, warehouse = ? WHERE itemID = ?";
+			String sql = "UPDATE inventory SET size = ?, warehouse = ? WHERE vaultID = ?";
 			
 			conn.setAutoCommit(false);
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setDouble(1, item.getSize());
 			stmt.setInt(2, item.getWarehouse());
-			stmt.setInt(3, item.getItemID());
+			stmt.setInt(3, item.getVaultID());
 			
 			int rowsAffected = stmt.executeUpdate();
 			if(rowsAffected == 1) {
@@ -148,7 +148,7 @@ public class SQLInventoryDAO implements InventoryDAO {
 		
 		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()) {
 			
-			String sql = "DELETE FROM inventory WHERE itemID = ?";
+			String sql = "DELETE FROM inventory WHERE vaultID = ?";
 			
 			// want to make sure insert is successful before committing
 			conn.setAutoCommit(false);

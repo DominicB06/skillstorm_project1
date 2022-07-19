@@ -12,11 +12,11 @@ public interface ItemDetailsDAO {
 	public ItemDetails findBySerialNum(int serialNum);
 	
 	/**
-	 * Find an item by its database generated itemID
-	 * @param int itemID to search for
+	 * Find an item by its database generated vaultID
+	 * @param int vaultID to search for
 	 * @return ItemDetails object requested
 	 */
-	public ItemDetails findByItemID(int itemID);
+	public ItemDetails findByVaultID(int itemID);
 		
 	/**
 	 * Find an item by its name

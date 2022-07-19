@@ -2,7 +2,7 @@ package com.skillstorm.project1.models;
 
 public class Inventory {
 
-	private int itemID;
+	private int vaultID;
 	private double size;
 	private int warehouse;
 	
@@ -15,25 +15,25 @@ public class Inventory {
 		this.warehouse = warehouse;
 	}
 
-	public Inventory(int itemID, double size, int warehouse) {
+	public Inventory(int vaultID, double size, int warehouse) {
 		super();
-		this.itemID = itemID;
+		this.vaultID = vaultID;
 		this.size = size;
 		this.warehouse = warehouse;
 	}
 	
-	public Inventory(int itemID, double size) {
+	public Inventory(int vaultID, double size) {
 		super();
-		this.itemID = itemID;
+		this.vaultID = vaultID;
 		this.size = size;
 	}
 
-	public int getItemID() {
-		return itemID;
+	public int getVaultID() {
+		return vaultID;
 	}
 
-	public void setItemID(int itemID) {
-		this.itemID = itemID;
+	public void setVaultID(int vaultID) {
+		this.vaultID = vaultID;
 	}
 
 	public double getSize() {
@@ -54,7 +54,7 @@ public class Inventory {
 
 	@Override
 	public String toString() {
-		return "Inventory [itemID=" + itemID + ", size=" + size + ", warehouse=" + warehouse + "]";
+		return "Inventory [vaultID=" + vaultID + ", size=" + size + ", warehouse=" + warehouse + "]";
 	}
 	
 	

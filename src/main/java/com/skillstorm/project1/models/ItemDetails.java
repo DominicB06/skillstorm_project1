@@ -4,17 +4,17 @@ public class ItemDetails {
 
 	private int serialNum;
 	private String name;
-	private int itemID;
+	private int vaultID;
 
 	public ItemDetails() {
 		
 	}
 	
-	public ItemDetails(int serialNum, String name, int itemID) {
+	public ItemDetails(int serialNum, String name, int vaultID) {
 		super();
 		this.serialNum = serialNum;
 		this.name = name;
-		this.itemID = itemID;
+		this.vaultID = vaultID;
 	}
 
 	public int getSerialNum() {
@@ -33,17 +33,17 @@ public class ItemDetails {
 		this.name = name;
 	}
 
-	public int getItemID() {
-		return itemID;
+	public int getVaultID() {
+		return vaultID;
 	}
 
-	public void setItemID(int itemID) {
-		this.itemID = itemID;
+	public void setVaultID(int vaultID) {
+		this.vaultID = vaultID;
 	}
 
 	@Override
 	public String toString() {
-		return "ItemDetails [serialNum=" + serialNum + ", name=" + name + ", itemID=" + itemID + "]";
+		return "ItemDetails [serialNum=" + serialNum + ", name=" + name + ", vaultID=" + vaultID + "]";
 	}
 	
 	

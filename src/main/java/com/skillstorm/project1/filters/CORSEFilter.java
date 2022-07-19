@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebFilter(urlPatterns = "/*")
@@ -32,7 +33,9 @@ public void init(FilterConfig filterConfig) throws ServletException {
 		HttpServletResponse res = (HttpServletResponse) response;
 		res.addHeader("Access-Control-Allow-Origin", "*"); // Allows any domain to make a request
 		res.addHeader("Access-Control-Allow-Methods", "*"); // Allows all http methods
-		res.addHeader("Access-Control-Allow-Headers", "Authorization"); // Allows all http methods
+		res.addHeader("Access-Control-Allow-Headers", "*"); // Allows all http methods
+		
+		
 		chain.doFilter(request, response);
 		
 	}

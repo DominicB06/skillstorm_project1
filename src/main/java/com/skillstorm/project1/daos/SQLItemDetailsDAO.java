@@ -13,7 +13,7 @@ public class SQLItemDetailsDAO implements ItemDetailsDAO{
 		// need to changed this later to use application.properties
 		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()) {
 			
-			String sql = "SELECT name, itemID FROM itemdetails WHERE serialNum = ?";
+			String sql = "SELECT name, vaultID FROM itemdetails WHERE serialNum = ?";
 			
 			// generate statement and resultset to get results from query
 			PreparedStatement stmt = conn.prepareStatement(sql);
@@ -23,7 +23,7 @@ public class SQLItemDetailsDAO implements ItemDetailsDAO{
 		
 			// get all items
 			if(rs.next()) {
-				ItemDetails i = new ItemDetails(serialNum, rs.getString("name"), rs.getInt("itemID"));
+				ItemDetails i = new ItemDetails(serialNum, rs.getString("name"), rs.getInt("vaultID"));
 				return i;
 			}
 		} catch (Exception e) {
@@ -33,21 +33,21 @@ public class SQLItemDetailsDAO implements ItemDetailsDAO{
 	}
 
 	@Override
-	public ItemDetails findByItemID(int itemID) {
+	public ItemDetails findByVaultID(int vaultID) {
 		// need to changed this later to use application.properties
 		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()) {
 			
-			String sql = "SELECT serialNum, name FROM itemdetails WHERE itemID = ?";
+			String sql = "SELECT serialNum, name FROM itemdetails WHERE vaultID = ?";
 			
 			// generate statement and resultset to get results from query
 			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, itemID);
+			stmt.setInt(1, vaultID);
 			
 			ResultSet rs = stmt.executeQuery();
 		
 			// get all items
 			if(rs.next()) {
-				ItemDetails i = new ItemDetails(rs.getInt("serialNum"), rs.getString("name"), itemID);
+				ItemDetails i = new ItemDetails(rs.getInt("serialNum"), rs.getString("name"), vaultID);
 				return i;
 			}
 		} catch (Exception e) {
@@ -61,7 +61,7 @@ public class SQLItemDetailsDAO implements ItemDetailsDAO{
 		// need to changed this later to use application.properties
 		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()) {
 			
-			String sql = "SELECT serialNum, itemID FROM itemdetails WHERE name = ?";
+			String sql = "SELECT serialNum, vaultID FROM itemdetails WHERE name = ?";
 			
 			// generate statement and resultset to get results from query
 			PreparedStatement stmt = conn.prepareStatement(sql);
@@ -71,7 +71,7 @@ public class SQLItemDetailsDAO implements ItemDetailsDAO{
 		
 			// get all items
 			if(rs.next()) {
-				ItemDetails i = new ItemDetails(rs.getInt("serialNum"), name, rs.getInt("itemID"));
+				ItemDetails i = new ItemDetails(rs.getInt("serialNum"), name, rs.getInt("vaultID"));
 				return i;
 			}
 		} catch (Exception e) {
@@ -94,7 +94,7 @@ public class SQLItemDetailsDAO implements ItemDetailsDAO{
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, item.getSerialNum());
 			stmt.setString(2, item.getName());
-			stmt.setInt(3, item.getItemID());
+			stmt.setInt(3, item.getVaultID());
 			
 			// execute the statement and make sure update was successful 
 			int rowsAffected = stmt.executeUpdate();
@@ -115,13 +115,13 @@ public class SQLItemDetailsDAO implements ItemDetailsDAO{
 	public boolean update(ItemDetails item) {
 		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()){
 			
-			String sql = "UPDATE itemdetails SET serialNum = ?, name = ?, itemID = ? WHERE serialNum = ?";
+			String sql = "UPDATE itemdetails SET serialNum = ?, name = ?, vaultID = ? WHERE serialNum = ?";
 			
 			conn.setAutoCommit(false);
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, item.getSerialNum());
 			stmt.setString(2, item.getName());
-			stmt.setInt(3, item.getItemID());
+			stmt.setInt(3, item.getVaultID());
 			stmt.setInt(4, item.getSerialNum());
 			
 			int rowsAffected = stmt.executeUpdate();
