@@ -123,18 +123,23 @@ public class InventoryServlet extends HttpServlet{
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		int id = Integer.parseInt(req.getParameter("id"));
-		
-		boolean deleted = dao.delete(id);
-		// if the delete was successful send the data and set status to 201
-		if(deleted) {
-			resp.setContentType("application/json");
-			resp.getWriter().print(mapper.writeValueAsString("Success: Inventory has been deleted"));
-			resp.setStatus(201);
-		}else { //else delete was a failure
-			resp.getWriter().print(mapper.writeValueAsString("Error: Could not delete the inventory"));
-			resp.setStatus(400);
+		try {
+			int id = Integer.parseInt(req.getParameter("id"));
+			
+			boolean deleted = dao.delete(id);
+			// if the delete was successful send the data and set status to 201
+			if(deleted) {
+				resp.setContentType("application/json");
+				resp.getWriter().print(mapper.writeValueAsString("Success: Inventory has been deleted"));
+				resp.setStatus(201);
+			}else { //else delete was a failure
+				resp.getWriter().print(mapper.writeValueAsString("Error: Could not delete the inventory"));
+				resp.setStatus(400);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
+		
 	}
 
 }

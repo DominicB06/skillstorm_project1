@@ -13,6 +13,9 @@ public interface InventoryDAO {
 		 */
 		public List<Inventory> findByWarehouse(int warehouseId);
 		
+		public Inventory findByVaultId(int vaultId);
+		
+		
 		/**
 		 * Find the current space used in a warehouse
 		 * @param warehouseID
@@ -41,3 +44,10 @@ public interface InventoryDAO {
 		 */
 		public boolean delete(int id);
 }
+
+
+
+
+
+
+

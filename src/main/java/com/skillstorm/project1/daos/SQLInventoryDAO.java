@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.skillstorm.project1.conf.WarehouseDBCreds;
 import com.skillstorm.project1.models.Inventory;
+import com.skillstorm.project1.models.ItemDetails;
 import com.skillstorm.project1.services.CapacityCheck;
 
 
@@ -17,7 +18,6 @@ public class SQLInventoryDAO implements InventoryDAO {
 	@Override
 	public List<Inventory> findByWarehouse(int warehouseId) {
 		
-		// need to changed this later to use application.properties
 		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()) {
 			
 			LinkedList<Inventory> items = new LinkedList<>();
@@ -35,6 +35,30 @@ public class SQLInventoryDAO implements InventoryDAO {
 				items.add(i);
 			}
 			return items;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	@Override
+	public Inventory findByVaultId(int vaultId) {
+		
+		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()) {
+			
+			String sql = "SELECT * FROM inventory WHERE vaultID = ?";
+			
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, vaultId);
+			
+			ResultSet rs = stmt.executeQuery();
+		
+			if(rs.next()) {
+				Inventory i = new Inventory(vaultId, rs.getDouble("size"), rs.getInt("warehouse"));
+				return i;
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -113,8 +137,18 @@ public class SQLInventoryDAO implements InventoryDAO {
 		
 		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()){
 			
+			// Check to see if user provided the warehouse to update
+			// if not get the original 
+			int warehouseId;
+			if(item.getWarehouse() == 0) {
+				Inventory original = findByVaultId(item.getVaultID());
+				warehouseId = original.getWarehouse();
+			}else {
+				warehouseId = item.getWarehouse();
+			}
+			
 			CapacityCheck check = new CapacityCheck();
-			if(!check.checkCapacity(item.getWarehouse(), item.getSize())) {
+			if(!check.checkCapacity(warehouseId, item.getSize())) {
 				return false;
 			}
 			
@@ -122,8 +156,16 @@ public class SQLInventoryDAO implements InventoryDAO {
 			
 			conn.setAutoCommit(false);
 			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setDouble(1, item.getSize());
-			stmt.setInt(2, item.getWarehouse());
+			
+			// if user doesnt provide a size to update keep the original
+			if(item.getSize() == 0) {
+				Inventory original = findByVaultId(item.getVaultID());
+				stmt.setDouble(1, original.getSize());
+			}else {
+				stmt.setDouble(1, item.getSize());
+			}
+			
+			stmt.setDouble(2, warehouseId);
 			stmt.setInt(3, item.getVaultID());
 			
 			int rowsAffected = stmt.executeUpdate();
@@ -147,6 +189,13 @@ public class SQLInventoryDAO implements InventoryDAO {
 	public boolean delete(int id) {
 		
 		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()) {
+			
+			// before we can delete an inventory we have to delete all its items
+			SQLItemDetailsDAO itemsDao = new SQLItemDetailsDAO();
+			List<ItemDetails> items = itemsDao.findByVaultID(id);
+			for(ItemDetails i : items) {
+				itemsDao.delete(i.getSerialNum());
+			}
 			
 			String sql = "DELETE FROM inventory WHERE vaultID = ?";
 			

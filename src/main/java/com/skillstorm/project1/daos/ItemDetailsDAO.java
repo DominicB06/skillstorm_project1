@@ -1,5 +1,7 @@
 package com.skillstorm.project1.daos;
 
+import java.util.List;
+
 import com.skillstorm.project1.models.ItemDetails;
 
 public interface ItemDetailsDAO {
@@ -16,7 +18,7 @@ public interface ItemDetailsDAO {
 	 * @param int vaultID to search for
 	 * @return ItemDetails object requested
 	 */
-	public ItemDetails findByVaultID(int itemID);
+	public List<ItemDetails> findByVaultID(int vaultID);
 		
 	/**
 	 * Find an item by its name
@@ -45,5 +47,12 @@ public interface ItemDetailsDAO {
 	 * @return True if success, false if failed
 	 */
 	public boolean delete(int serialNum);
+	
+	/**
+	 * 
+	 * @param vaultID
+	 * @return true if success, false if failed
+	 */
+
 
 }

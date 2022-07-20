@@ -3,6 +3,9 @@ package com.skillstorm.project1.daos;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.LinkedList;
+import java.util.List;
+
 import com.skillstorm.project1.conf.WarehouseDBCreds;
 import com.skillstorm.project1.models.ItemDetails;
 
@@ -33,9 +36,11 @@ public class SQLItemDetailsDAO implements ItemDetailsDAO{
 	}
 
 	@Override
-	public ItemDetails findByVaultID(int vaultID) {
+	public List<ItemDetails> findByVaultID(int vaultID) {
 		// need to changed this later to use application.properties
 		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()) {
+			
+			List<ItemDetails> items = new LinkedList<>();
 			
 			String sql = "SELECT serialNum, name FROM itemdetails WHERE vaultID = ?";
 			
@@ -46,10 +51,11 @@ public class SQLItemDetailsDAO implements ItemDetailsDAO{
 			ResultSet rs = stmt.executeQuery();
 		
 			// get all items
-			if(rs.next()) {
+			while(rs.next()) {
 				ItemDetails i = new ItemDetails(rs.getInt("serialNum"), rs.getString("name"), vaultID);
-				return i;
+				items.add(i);
 			}
+			return items;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -115,14 +121,26 @@ public class SQLItemDetailsDAO implements ItemDetailsDAO{
 	public boolean update(ItemDetails item) {
 		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()){
 			
-			String sql = "UPDATE itemdetails SET serialNum = ?, name = ?, vaultID = ? WHERE serialNum = ?";
+			String sql = "UPDATE itemdetails SET name = ?, vaultID = ? WHERE serialNum = ?";
 			
 			conn.setAutoCommit(false);
 			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, item.getSerialNum());
-			stmt.setString(2, item.getName());
-			stmt.setInt(3, item.getVaultID());
-			stmt.setInt(4, item.getSerialNum());
+			
+			if(item.getName() == "") {
+				ItemDetails original = findBySerialNum(item.getSerialNum());
+				stmt.setString(1, original.getName());
+			}else {
+				stmt.setString(1, item.getName());
+			}
+			
+			if(item.getVaultID() == 0) {
+				ItemDetails original = findBySerialNum(item.getSerialNum());
+				stmt.setInt(2, original.getVaultID());
+			}else {
+				stmt.setInt(2, item.getVaultID());
+			}
+			
+			stmt.setInt(3, item.getSerialNum());
 			
 			int rowsAffected = stmt.executeUpdate();
 			if(rowsAffected == 1) {
@@ -166,7 +184,6 @@ public class SQLItemDetailsDAO implements ItemDetailsDAO{
 		return false;
 	}
 	
-
 }
 
 

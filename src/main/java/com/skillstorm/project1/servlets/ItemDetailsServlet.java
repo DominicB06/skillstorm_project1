@@ -2,6 +2,8 @@ package com.skillstorm.project1.servlets;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,14 +27,14 @@ public class ItemDetailsServlet extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		// check if there is an itemID
+		// check if there is a vaultID
 		try {
 			int id = Integer.parseInt(req.getParameter("vaultID"));
-			ItemDetails item = dao.findByVaultID(id);
+			List<ItemDetails> items = dao.findByVaultID(id);
 			
-			if(item != null) {
+			if(items != null) {
 				resp.setContentType("application/json");
-				resp.getWriter().print(mapper.writeValueAsString(item));
+				resp.getWriter().print(mapper.writeValueAsString(items));
 			} else { // if no warehouse was found then client made a mistake so send 404 and a message
 				resp.setStatus(404);
 				resp.getWriter().print(mapper.writeValueAsString("Error: No item found with that id"));
@@ -121,18 +123,33 @@ public class ItemDetailsServlet extends HttpServlet{
 	// Delete
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-		int serialNum = Integer.parseInt(req.getParameter("serialNum"));
-		
-		boolean deleted = dao.delete(serialNum);
-		// if the delete was successful send the data and set status to 201
-		if(deleted) {
-			resp.setContentType("application/json");
-			resp.getWriter().print(mapper.writeValueAsString("Success: Item has been deleted"));
-			resp.setStatus(201);
-		}else { //else delete was a failure
-			resp.getWriter().print(mapper.writeValueAsString("Error: Could not delete the item"));
-			resp.setStatus(400);
+	
+		// for delete 1 item
+		 try {
+			 int serialNum = Integer.parseInt(req.getParameter("serialNum"));
+				
+				boolean deleted = dao.delete(serialNum);
+				// if the delete was successful send the data and set status to 201
+				if(deleted) {
+					resp.setContentType("application/json");
+					resp.getWriter().print(mapper.writeValueAsString("Success: Item has been deleted"));
+					resp.setStatus(201);
+				}else { //else delete was a failure
+					resp.getWriter().print(mapper.writeValueAsString("Error: Could not delete the item"));
+					resp.setStatus(400);
+				}
+			
+		} catch (Exception e) {
 		}
+		 
+		
 	}
 }
+
+
+
+
+
+
+
+

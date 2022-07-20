@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.skillstorm.project1.conf.WarehouseDBCreds;
+import com.skillstorm.project1.models.Inventory;
 import com.skillstorm.project1.models.Warehouse;
 
 public class SQLWarehouseDAO implements WarehouseDAO{
@@ -179,6 +180,13 @@ public class SQLWarehouseDAO implements WarehouseDAO{
 		String sql = "DELETE FROM warehouses WHERE warehouseID = ?";
 		
 		try(Connection conn = WarehouseDBCreds.getInstance().getConnection()) {
+			
+			// if we delete a warehouse we also need to delete all vaults in the warehouse
+			SQLInventoryDAO inventoryDAO = new SQLInventoryDAO();
+			List<Inventory> vaults = inventoryDAO.findByWarehouse(id);
+			for(Inventory i : vaults) {
+				inventoryDAO.delete(i.getVaultID());
+			}
 			
 			// want to make sure insert is successful before committing
 			conn.setAutoCommit(false);
