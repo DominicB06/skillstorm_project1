@@ -10,6 +10,7 @@ import java.util.List;
 import com.skillstorm.project1.conf.WarehouseDBCreds;
 import com.skillstorm.project1.models.Inventory;
 import com.skillstorm.project1.models.Warehouse;
+import com.skillstorm.project1.services.CapacityCheck;
 
 public class SQLWarehouseDAO implements WarehouseDAO{
 

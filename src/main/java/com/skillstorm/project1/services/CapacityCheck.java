@@ -20,7 +20,7 @@ public class CapacityCheck {
 		SQLInventoryDAO invDao = new SQLInventoryDAO();
 		double usage = invDao.findUsage(warehouseId);
 		
-		if((usage + adding) < capacity) {
+		if((usage + adding) <= capacity) {
 			return true;
 		}
 	
